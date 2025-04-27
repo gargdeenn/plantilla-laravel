@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\UserService;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -17,7 +16,6 @@ class UserController extends Controller
 
     public function getAll(Request $request)
     {
-        Log::info($request);
         $users = $this->userService->getAll($request->relations);
         return $this->returnResponse($users, 'Users retrieved successfully');
     }
