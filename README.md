@@ -221,34 +221,19 @@ Este proyecto utiliza las siguientes dependencias:
 }
 ```
 
----
-
-## Contribuir
-
-Gracias por considerar contribuir a este proyecto. Si deseas contribuir, por favor revisa la guía de contribución en la [documentación oficial de Laravel](https://laravel.com/docs/contributions).
-
----
-
-## Código de Conducta
-
-Para asegurarnos de que la comunidad de Laravel sea bienvenida para todos, por favor revisa y sigue el [Código de Conducta](https://laravel.com/docs/contributions#code-of-conduct).
-
----
-
-## Vulnerabilidades de Seguridad
-
-Si encuentras alguna vulnerabilidad de seguridad en Laravel, por favor envía un correo a Taylor Otwell a [taylor@laravel.com](mailto:taylor@laravel.com). Todas las vulnerabilidades de seguridad serán atendidas de inmediato.
-
----
-
 ## Licencia
 
 El framework Laravel es un software de código abierto licenciado bajo la licencia [MIT](https://opensource.org/licenses/MIT).
 
 ## Autor
-
+```
 Diego Andres Santiago Pallares / Desarrollador FullStack / Laravel - Angular - MySql
+---
 Números de contacto: +57 3332525937 O +57 3114076057
+---
 GitHub: gargdeenn
+---
 Linkedin: www.linkedin.com/in/gargdeenn
+---
 Correo personal: dsantiagopallares@gmail.com
+---
