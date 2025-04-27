@@ -17,5 +17,9 @@ use App\Http\Controllers\AuthController;
 
 Route::group(['middleware' => 'jwt.auth', 'prefix' => 'auth'], function($router) {
     Route::post('user', [UserController::class, 'save']);
-    // Route::post('login', 'AuthController@login');
+    Route::post('all-users', [UserController::class, 'getAll']);
+    Route::post('user/{id}', [UserController::class, 'getById']);
+    Route::post('get-user', [UserController::class, 'get']);
+    Route::put('user/{id}', [UserController::class, 'update']);
+    Route::delete('user/{id}', [UserController::class, 'delete']);
 });
