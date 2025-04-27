@@ -1,64 +1,254 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Proyecto Laravel con JWT Autenticación
 
-## About Laravel
+Este proyecto está basado en Laravel y utiliza JWT (JSON Web Tokens) para la autenticación de los usuarios. A continuación se describen los pasos para ejecutar el proyecto, así como ejemplos de cómo realizar peticiones a las rutas protegidas.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisitos Previos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Tener instalado PHP >= 7.3
+- Tener instalado Composer
+- Tener instalado Laravel
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Paso 1: Configuración inicial
 
-## Learning Laravel
+### 1.1. Generar la clave secreta JWT
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Después de clonar el proyecto y configurar las dependencias, es necesario generar la clave secreta para JWT. Esto se logra ejecutando el siguiente comando:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+php artisan jwt:secret
+```
 
-## Laravel Sponsors
+Este comando generará una clave secreta que se usará para firmar los tokens JWT.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 1.2. Iniciar el servidor de desarrollo
 
-### Premium Partners
+Una vez que la clave JWT ha sido generada, podemos iniciar el servidor de desarrollo de Laravel con el siguiente comando:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+php artisan serve
+```
 
-## Contributing
+Esto arrancará el servidor en `http://127.0.0.1:8000`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Rutas y Ejemplos de Uso
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2.1. **Crear Usuario**
 
-## Security Vulnerabilities
+**Ruta**: `POST /api/auth/user`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Esta ruta permite crear un nuevo usuario. Se necesita enviar los datos del usuario en el cuerpo de la solicitud:
 
-## License
+**Formato del JSON**:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```json
+{
+    "first_name": "andres",
+    "last_name": "pallares",
+    "email": "a.pallares@gmail.com",
+    "password": "23082001d",
+    "role_id": 1
+}
+```
+
+**Descripción**: Esta ruta crea un nuevo usuario en el sistema, asignando el rol mediante el `role_id` proporcionado.
+
+---
+
+### 2.2. **Iniciar Sesión**
+
+**Ruta**: `POST /api/login`
+
+Esta ruta permite a un usuario autenticarse y obtener un token JWT.
+
+**Formato del JSON**:
+
+```json
+{
+    "email": "d.santiago@gmail.com",
+    "password": "23082001d"
+}
+```
+
+**Descripción**: Al hacer login, se debe proporcionar el `email` y `password` del usuario. Si las credenciales son correctas, se devolverá un token JWT que deberá usarse para autenticar solicitudes futuras.
+
+---
+
+### 2.3. **Obtener Todos los Usuarios**
+
+**Ruta**: `POST /api/auth/all-users`
+
+Esta ruta devuelve todos los usuarios del sistema, con la posibilidad de incluir relaciones adicionales, como el rol del usuario.
+
+**Formato del JSON**:
+
+```json
+{
+    "relations": ["role"]
+}
+```
+
+**Descripción**: Esta ruta devuelve todos los usuarios registrados en el sistema. El parámetro `relations` permite especificar las relaciones que deseas cargar junto con el usuario (en este caso, el rol).
+
+---
+
+### 2.4. **Obtener Usuario por ID**
+
+**Ruta**: `POST /api/auth/user/{id}`
+
+Esta ruta obtiene la información de un usuario específico, identificado por su ID. 
+
+**Formato del JSON**:
+
+```json
+{
+    "relations": ["role"]
+}
+```
+
+**Descripción**: Permite obtener los detalles de un usuario específico, junto con las relaciones especificadas (por ejemplo, el rol del usuario).
+
+---
+
+### 2.5. **Buscar Usuario por Filtros**
+
+**Ruta**: `POST /api/auth/get-user/`
+
+Esta ruta permite buscar un usuario basado en los filtros proporcionados. 
+
+**Formato del JSON**:
+
+```json
+{
+    "filters": {
+        "search": "andres"
+    },
+    "relations": []
+}
+```
+
+**Descripción**: Este endpoint busca a los usuarios en base a los filtros proporcionados. En este ejemplo, se busca por el nombre "andres".
+
+---
+
+### 2.6. **Actualizar Usuario**
+
+**Ruta**: `PUT /api/auth/user/{id}`
+
+Esta ruta permite actualizar la información de un usuario específico, identificado por su ID.
+
+**Formato del JSON**:
+
+```json
+{
+    "first_name": "lino",
+    "last_name": "santiago",
+    "email": "l.tiago@gmail.com",
+    "password": "23082001d",
+    "role_id": 1
+}
+```
+
+**Descripción**: Permite actualizar los detalles de un usuario. El ID del usuario se pasa como parte de la URL, y los nuevos datos deben enviarse en el cuerpo de la solicitud.
+
+---
+
+### 2.7. **Eliminar Usuario**
+
+**Ruta**: `DELETE /api/auth/user/{id}`
+
+Esta ruta permite eliminar un usuario específico, identificado por su ID.
+
+**Formato del JSON**:
+
+```json
+{
+    "first_name": "lino",
+    "last_name": "santiago",
+    "email": "l.tiago@gmail.com",
+    "password": "23082001d",
+    "role_id": 1
+}
+```
+
+**Descripción**: Elimina un usuario específico del sistema, identificado por su ID.
+
+---
+
+## Seguridad (JWT)
+
+Todas las rutas mencionadas anteriormente requieren un **token de autenticación**. Este token debe incluirse en el encabezado `Authorization` de cada solicitud:
+
+### Ejemplo de encabezado con token:
+
+```
+Authorization: Bearer {tu_token_jwt}
+```
+
+El token se debe generar al autenticar al usuario en la ruta `/api/login` y se debe incluir en las solicitudes subsecuentes.
+
+---
+
+## composer.json
+
+Este proyecto utiliza las siguientes dependencias:
+
+```json
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.3|^8.0",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^8.75",
+        "laravel/sanctum": "^2.11",
+        "laravel/tinker": "^2.5",
+        "tymon/jwt-auth": "^1.0"
+    },
+    "require-dev": {
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^5.10",
+        "phpunit/phpunit": "^9.5.10"
+    }
+}
+```
+
+---
+
+## Contribuir
+
+Gracias por considerar contribuir a este proyecto. Si deseas contribuir, por favor revisa la guía de contribución en la [documentación oficial de Laravel](https://laravel.com/docs/contributions).
+
+---
+
+## Código de Conducta
+
+Para asegurarnos de que la comunidad de Laravel sea bienvenida para todos, por favor revisa y sigue el [Código de Conducta](https://laravel.com/docs/contributions#code-of-conduct).
+
+---
+
+## Vulnerabilidades de Seguridad
+
+Si encuentras alguna vulnerabilidad de seguridad en Laravel, por favor envía un correo a Taylor Otwell a [taylor@laravel.com](mailto:taylor@laravel.com). Todas las vulnerabilidades de seguridad serán atendidas de inmediato.
+
+---
+
+## Licencia
+
+El framework Laravel es un software de código abierto licenciado bajo la licencia [MIT](https://opensource.org/licenses/MIT).
+
+## Autor
+
+Diego Andres Santiago Pallares / Desarrollador FullStack / Laravel - Angular - MySql
+Números de contacto: +57 3332525937 O +57 3114076057
+GitHub: gargdeenn
+Linkedin: www.linkedin.com/in/gargdeenn
+Correo personal: dsantiagopallares@gmail.com
